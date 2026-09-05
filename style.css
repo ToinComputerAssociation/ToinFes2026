@@ -16,7 +16,7 @@ h1, h2, h3, p { margin: 0; }
 h1 { font-size: 30px; line-height: 1.5; font-weight: 600; }
 h2 { font-size: 21px; font-weight: 600; }
 h3 { font-size: 17px; font-weight: 600; }
-.site-header, main, .site-footer { width: min(960px, calc(100% - 48px)); margin: 0 auto; }
+.site-header, main, .site-footer { width: min(1200px, calc(100% - 48px)); margin: 0 auto; }
 .site-header { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 25px 0; border-bottom: 1px solid #303030; }
 .brand { display: flex; align-items: center; color: #eee; text-decoration: none; font-size: 24px; font-weight: 700; white-space: nowrap; }
 .brand img { width: 80px; height: auto; }

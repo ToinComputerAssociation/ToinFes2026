@@ -88,6 +88,7 @@ summary { cursor: pointer; color: #ddd; }
   .site-footer { flex-direction: column; gap: 12px; }
 }
 .embedded-page { padding: 32px 0 48px; }
+.embedded-page { width: min(1400px, calc(100% - 24px)); }
 .embedded-page h1 { margin-top: 20px; }
 .embedded-note { color: #aaa; margin: 6px 0 18px; }
 .embedded-page iframe { display: block; width: 100%; height: min(760px, 75vh); border: 1px solid #303030; background: #000; }

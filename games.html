@@ -32,19 +32,18 @@
 </summary>
 <p>ゲーム画面が正しく表示されないときは、ゲーム内の全画面ボタン（通常は右下）をお試しください。操作方法は各ゲームの説明をご覧ください。わからないことがあれば、お気軽に部員に声をかけてください。音の出るゲームは、音量を小さくしてから開くのがおすすめです。</p>
 </details>
-<div class="game-grid">
-<a class="game-card" href="tca-finder.html">
-<div class="card-image">
-<img src="public/screenshots/tcafinder.png" alt="TCA Finderのゲーム画面" loading="lazy">
-</div>
-<div class="card-copy">
-<span class="card-label">パターンゲーム</span>
-<h2>TCA Finder
-</h2>
-<p>DNA配列からTCAモチーフを探す、ゲノムパターンゲーム。</p>
-<span class="card-action">遊ぶ</span>
-</div>
-</a>
+<p class="sort-controls">
+<label for="sort-select">並び替え</label>
+<select id="sort-select">
+<option value="default">デフォルト</option>
+<option value="difficulty">難易度順</option>
+</select>
+<span class="sort-direction" role="group" aria-label="昇順・降順">
+<button type="button" id="sort-asc" aria-pressed="true">昇順</button>
+<button type="button" id="sort-desc" aria-pressed="false">降順</button>
+</span>
+</p>
+<div class="game-grid" id="game-grid">
 <a class="game-card" href="invincibletank.html">
 <div class="card-image">
 <img src="public/screenshots/invincibletank.png" alt="InvincibleTankのゲーム画面" loading="lazy">
@@ -210,7 +209,60 @@
 <span class="card-action">遊ぶ</span>
 </div>
 </a>
+<a class="game-card" href="tca-finder.html">
+<div class="card-image">
+<img src="public/screenshots/tcafinder.png" alt="TCA Finderのゲーム画面" loading="lazy">
 </div>
+<div class="card-copy">
+<span class="card-label">難易度 ☆☆</span>
+<h2>TCA Finder
+</h2>
+<p>DNA配列からTCAモチーフを探す、ゲノムパターンゲーム。</p>
+<span class="card-action">遊ぶ</span>
+</div>
+</a>
+</div>
+<script>
+(function () {
+  var grid = document.getElementById("game-grid");
+  var cards = Array.prototype.slice.call(grid.querySelectorAll(".game-card"));
+  cards.forEach(function (card, i) {
+    card.dataset.defaultOrder = i;
+    var label = card.querySelector(".card-label");
+    var stars = label ? (label.textContent.match(/☆/g) || []).length : 0;
+    card.dataset.difficulty = stars;
+  });
+  var select = document.getElementById("sort-select");
+  var ascBtn = document.getElementById("sort-asc");
+  var descBtn = document.getElementById("sort-desc");
+  var ascending = true;
+  function setDirection(next) {
+    ascending = next;
+    ascBtn.setAttribute("aria-pressed", ascending ? "true" : "false");
+    descBtn.setAttribute("aria-pressed", ascending ? "false" : "true");
+  }
+  function applySort() {
+    var mode = select.value;
+    var sorted = cards.slice();
+    if (mode === "difficulty") {
+      sorted.sort(function (a, b) {
+        var diff = Number(a.dataset.difficulty) - Number(b.dataset.difficulty);
+        if (diff !== 0) return ascending ? diff : -diff;
+        return Number(a.dataset.defaultOrder) - Number(b.dataset.defaultOrder);
+      });
+    } else {
+      sorted.sort(function (a, b) {
+        var diff = Number(a.dataset.defaultOrder) - Number(b.dataset.defaultOrder);
+        return ascending ? diff : -diff;
+      });
+    }
+    sorted.forEach(function (card) { grid.appendChild(card); });
+  }
+  select.addEventListener("change", applySort);
+  ascBtn.addEventListener("click", function () { setDirection(true); applySort(); });
+  descBtn.addEventListener("click", function () { setDirection(false); applySort(); });
+})();
+</script>
 </main>
 <footer class="site-footer">
 <div>
